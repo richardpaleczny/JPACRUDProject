@@ -35,6 +35,18 @@ public class RPG {
 	public RPG() {
 	}
 
+	public RPG(String title, String description, String developer,
+			String publisher, int releaseYear, String urlImage, String urlReview) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.developer = developer;
+		this.publisher = publisher;
+		this.releaseYear = releaseYear;
+		this.urlImage = urlImage;
+		this.urlReview = urlReview;
+	}
+
 	public RPG(int id, String title, String description, String developer,
 			String publisher, int releaseYear, String urlImage, String urlReview) {
 		super();

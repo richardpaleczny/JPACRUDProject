@@ -40,6 +40,14 @@
 		<br>
 		<img src="${RPG.urlImage}" alt="RPG Box Image" height="200"
 			width="200">
+		<form action="goToEditPage.do">
+			<input type="submit" value="Edit"> <input type="hidden"
+				name="rpgID" value="${RPG.id}">
+		</form>
+		<form action="details.do">
+			<input type="submit" value="Delete"> <input type="hidden"
+				name="rpgID" value="${RPG.id}">
+		</form>
 	</c:if>
 
 </body>

@@ -27,8 +27,15 @@ public class RPGDAOImpl implements RPGDAO {
 				.getSingleResult();
 
 		if (id <= maxId && (!(id <= 0))) {
-			return em.createQuery("SELECT r FROM RPG r WHERE r.id = :id", RPG.class)
-					.setParameter("id", id).getSingleResult();
+			try {
+				return em.createQuery("SELECT r FROM RPG r WHERE r.id = :id", RPG.class)
+						.setParameter("id", id).getSingleResult();
+			}
+			// This is useful for when we delete an entry and try to grab a row from
+			// the database in which that id no longer exists
+			catch (Exception e) {
+				return null;
+			}
 		} else {
 			return null;
 		}
@@ -38,6 +45,13 @@ public class RPGDAOImpl implements RPGDAO {
 	@Override
 	public List<RPG> returnRPGList() {
 		return em.createQuery("SELECT r FROM RPG r", RPG.class).getResultList();
+	}
+
+	@Override
+	public RPG createRPG(RPG rpg) {
+		em.persist(rpg);
+		em.flush();
+		return rpg;
 	}
 
 }

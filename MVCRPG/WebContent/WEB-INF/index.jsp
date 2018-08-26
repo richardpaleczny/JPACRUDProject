@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +22,65 @@
 		<label for="searchRPGByID">Search for an RPG by ID: </label> <input
 			type="text" name="rpgID" /> <input type="submit" value="Submit" />
 	</form>
+
 	<br>
+
+	<form action="displayAddRPGForm.do">
+		<input type="submit" value="Add an RPG to the Database" />
+	</form>
+
+	<c:if test="${wasButtonClickedForAddRPG}">
+
+		<br>
+
+		<form action="addRPG.do" method="POST">
+			<table>
+				<tr>
+					<td><label for="title">Title:</label></td>
+					<td><input type="text" name="title" /></td>
+				</tr>
+				<tr>
+					<td><label for="description">Description:</label></td>
+					<td><input type="text" name="description" /></td>
+				</tr>
+				<tr>
+					<td><label for="developer">Developer:</label></td>
+					<td><input type="text" name="developer" /></td>
+				</tr>
+				<tr>
+					<td><label for="publisher">Publisher:</label></td>
+					<td><input type="text" name="publisher" /></td>
+				</tr>
+				<tr>
+					<td><label for="releaseYear">Release Year:</label></td>
+					<td><input type="text" name="releaseYear" /></td>
+				</tr>
+				<tr>
+					<td><label for="urlImage">Image URL:</label></td>
+					<td><input type="text" name="urlImage" /></td>
+				</tr>
+				<tr>
+					<td><label for="urlReview">Review URL:</label></td>
+					<td><input type="text" name="urlReview" /></td>
+				</tr>
+			</table>
+
+			<input type="submit" value="Add RPG" />
+
+		</form>
+
+	</c:if>
+
+	<br>
+
 	<form action="displayList.do">
 		<input type="submit" value="Display all RPGs" />
 	</form>
+
 	<br>
+
 	<c:choose>
-		<c:when test="${wasButtonClicked}">
+		<c:when test="${wasButtonClickedForListRPGs}">
 			<table>
 				<tr>
 					<th></th>
@@ -47,7 +100,7 @@
 											<input type="submit" value="Details"> <input
 												type="hidden" name="rpgID" value="${rpg.id}">
 										</form></td>
-									<td><form action="details.do">
+									<td><form action="goToEditPage.do">
 											<input type="submit" value="Edit"> <input
 												type="hidden" name="rpgID" value="${rpg.id}">
 										</form></td>
