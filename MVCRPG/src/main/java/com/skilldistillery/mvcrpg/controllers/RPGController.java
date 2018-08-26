@@ -1,7 +1,5 @@
 package com.skilldistillery.mvcrpg.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skilldistillery.mvcrpg.data.RPGDAO;
-import com.skilldistillery.rpg.entities.RPG;
 
 @Controller
 public class RPGController {
@@ -34,4 +31,12 @@ public class RPGController {
 		return "details";
 	}
 
+	@RequestMapping("displayList.do")
+	public String displayList(Model model) {
+
+		model.addAttribute("rpgList", dao.returnRPGList());
+		model.addAttribute("wasButtonClicked", true);
+
+		return "index";
+	}
 }

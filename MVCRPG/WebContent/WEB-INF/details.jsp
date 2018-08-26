@@ -9,6 +9,8 @@
 </head>
 <body>
 
+	<a href="index.do">Home</a>
+
 	<h2>RPG Details</h2>
 
 	<c:if test="${notFound}">

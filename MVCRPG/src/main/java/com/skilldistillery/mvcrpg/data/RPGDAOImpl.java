@@ -36,9 +36,8 @@ public class RPGDAOImpl implements RPGDAO {
 	}
 
 	@Override
-	public List<RPG> index() {
-		String qs = "SELECT r FROM RPG r";
-		return em.createQuery(qs, RPG.class).getResultList();
+	public List<RPG> returnRPGList() {
+		return em.createQuery("SELECT r FROM RPG r", RPG.class).getResultList();
 	}
 
 }

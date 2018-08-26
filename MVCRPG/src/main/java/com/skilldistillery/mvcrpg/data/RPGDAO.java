@@ -8,6 +8,6 @@ public interface RPGDAO {
 	
 	public RPG searchForRPGByID(Integer id);
 	
-	public List<RPG> index();
+	public List<RPG> returnRPGList();
 	
 }
