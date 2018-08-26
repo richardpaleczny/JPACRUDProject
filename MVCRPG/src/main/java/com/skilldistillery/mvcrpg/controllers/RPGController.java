@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skilldistillery.mvcrpg.data.RPGDAO;
 import com.skilldistillery.rpg.entities.RPG;
@@ -18,18 +19,19 @@ public class RPGController {
 
 	@RequestMapping("index.do")
 	public String index(Model model) {
-		List<RPG> rpgList = dao.index();
-		model.addAttribute("rpgList", rpgList);
 		return "index";
 	}
 
 	@RequestMapping("details.do")
-	public String details(Model model) {
+	public String details(Model model, @RequestParam("rpgID") Integer id) {
 
-		List<RPG> rpgList = dao.index();
-		model.addAttribute("rpgList", rpgList);
+		if (dao.searchForRPGByID(id) != null) {
+			model.addAttribute("RPG", dao.searchForRPGByID(id));
+		} else {
+			model.addAttribute("notFound", true);
+		}
+
 		return "details";
-
 	}
 
 }

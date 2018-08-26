@@ -6,6 +6,8 @@ import com.skilldistillery.rpg.entities.RPG;
 
 public interface RPGDAO {
 	
+	public RPG searchForRPGByID(Integer id);
+	
 	public List<RPG> index();
 	
 }

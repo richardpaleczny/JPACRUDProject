@@ -18,6 +18,24 @@ public class RPGDAOImpl implements RPGDAO {
 	private EntityManager em;
 
 	@Override
+	public RPG searchForRPGByID(Integer id) {
+
+		// This ensures that the id entered is valid, otherwise, we will return null
+		// and the *RPGController* will set a boolean stating that the RPG was not
+		// found
+		Integer maxId = (Integer) em.createQuery("SELECT MAX(r.id) FROM RPG r")
+				.getSingleResult();
+
+		if (id <= maxId && (!(id <= 0))) {
+			return em.createQuery("SELECT r FROM RPG r WHERE r.id = :id", RPG.class)
+					.setParameter("id", id).getSingleResult();
+		} else {
+			return null;
+		}
+
+	}
+
+	@Override
 	public List<RPG> index() {
 		String qs = "SELECT r FROM RPG r";
 		return em.createQuery(qs, RPG.class).getResultList();
