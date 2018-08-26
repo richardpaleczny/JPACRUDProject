@@ -100,13 +100,13 @@
 											<input type="submit" value="Details"> <input
 												type="hidden" name="rpgID" value="${rpg.id}">
 										</form></td>
-									<td><form action="goToEditPage.do">
+									<td><form action="displayEdit.do">
 											<input type="submit" value="Edit"> <input
-												type="hidden" name="rpgID" value="${rpg.id}">
+												type="hidden" name="listEditID" value="${rpg.id}">
 										</form></td>
-									<td><form action="details.do">
+									<td><form action="deleteRPG.do" method="POST">
 											<input type="submit" value="Delete"> <input
-												type="hidden" name="rpgID" value="${rpg.id}">
+												type="hidden" value="${rpg}">
 										</form></td>
 								</tr>
 							</table></td>
@@ -118,7 +118,45 @@
 								Review</a></td>
 
 					</tr>
-
+					<c:if test="${wasButtonClickedForEditRPG && rpg.id == listEditID}">
+						<tr>
+							<td><strong>Edit Fields</strong>
+								<form action="editRPG.do" method="POST">
+									<table>
+										<tr>
+											<td><label for="title">Title:</label></td>
+											<td><input type="text" name="title" /></td>
+										</tr>
+										<tr>
+											<td><label for="description">Description:</label></td>
+											<td><input type="text" name="description" /></td>
+										</tr>
+										<tr>
+											<td><label for="developer">Developer:</label></td>
+											<td><input type="text" name="developer" /></td>
+										</tr>
+										<tr>
+											<td><label for="publisher">Publisher:</label></td>
+											<td><input type="text" name="publisher" /></td>
+										</tr>
+										<tr>
+											<td><label for="releaseYear">Release Year:</label></td>
+											<td><input type="text" name="releaseYear" /></td>
+										</tr>
+										<tr>
+											<td><label for="urlImage">Image URL:</label></td>
+											<td><input type="text" name="urlImage" /></td>
+										</tr>
+										<tr>
+											<td><label for="urlReview">Review URL:</label></td>
+											<td><input type="text" name="urlReview" /></td>
+										</tr>
+									</table>
+									<input type="submit" value="Update" /> <input type="hidden"
+										name="updateID" value="${rpg.id}" />
+								</form>
+						</tr>
+					</c:if>
 					<tr>
 						<td><br></td>
 					</tr>

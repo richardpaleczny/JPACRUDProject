@@ -40,13 +40,54 @@
 		<br>
 		<img src="${RPG.urlImage}" alt="RPG Box Image" height="200"
 			width="200">
-		<form action="goToEditPage.do">
+
+		<form action="displayEdit.do">
 			<input type="submit" value="Edit"> <input type="hidden"
-				name="rpgID" value="${RPG.id}">
+				name="detailsEditID" value="${RPG.id}">
 		</form>
-		<form action="details.do">
+
+		<c:if test="${wasButtonClickedForEditRPG}">
+			<form action="editRPG.do" method="POST">
+				<br> <strong>Edit Fields</strong>
+				<table>
+					<tr>
+						<td><label for="title">Title:</label></td>
+						<td><input type="text" name="title" /></td>
+					</tr>
+					<tr>
+						<td><label for="description">Description:</label></td>
+						<td><input type="text" name="description" /></td>
+					</tr>
+					<tr>
+						<td><label for="developer">Developer:</label></td>
+						<td><input type="text" name="developer" /></td>
+					</tr>
+					<tr>
+						<td><label for="publisher">Publisher:</label></td>
+						<td><input type="text" name="publisher" /></td>
+					</tr>
+					<tr>
+						<td><label for="releaseYear">Release Year:</label></td>
+						<td><input type="text" name="releaseYear" /></td>
+					</tr>
+					<tr>
+						<td><label for="urlImage">Image URL:</label></td>
+						<td><input type="text" name="urlImage" /></td>
+					</tr>
+					<tr>
+						<td><label for="urlReview">Review URL:</label></td>
+						<td><input type="text" name="urlReview" /></td>
+					</tr>
+				</table>
+				<input type="submit" value="Update" /> <input type="hidden"
+					name="updateID" value="${RPG.id}" />
+			</form>
+			<br>
+		</c:if>
+
+		<form action="deleteRPG.do" method="POST">
 			<input type="submit" value="Delete"> <input type="hidden"
-				name="rpgID" value="${RPG.id}">
+				value="${RPG}">
 		</form>
 	</c:if>
 

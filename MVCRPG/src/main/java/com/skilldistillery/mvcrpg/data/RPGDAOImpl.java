@@ -54,4 +54,33 @@ public class RPGDAOImpl implements RPGDAO {
 		return rpg;
 	}
 
+	@Override
+	public RPG editRPG(Integer id, RPG rpg) {
+
+		RPG rpgToUpdate = em.find(RPG.class, id);
+		rpgToUpdate.setTitle(rpg.getTitle());
+		rpgToUpdate.setDescription(rpg.getDescription());
+		rpgToUpdate.setDeveloper(rpg.getDeveloper());
+		rpgToUpdate.setPublisher(rpg.getPublisher());
+		rpgToUpdate.setReleaseYear(rpg.getReleaseYear());
+		rpgToUpdate.setUrlImage(rpg.getUrlImage());
+		rpgToUpdate.setUrlReview(rpg.getUrlReview());
+
+		return rpgToUpdate;
+	}
+
+	@Override
+	public boolean destroyRPG(RPG rpg) {
+
+		em.remove(rpg);
+		em.flush();
+
+		if (em.find(RPG.class, rpg.getId()) == null) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 }

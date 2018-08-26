@@ -1,11 +1,14 @@
 package com.skilldistillery.mvcrpg.controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skilldistillery.mvcrpg.data.RPGDAO;
 import com.skilldistillery.rpg.entities.RPG;
@@ -22,7 +25,25 @@ public class RPGController {
 	}
 
 	@RequestMapping("details.do")
-	public String details(Model model, @RequestParam("rpgID") Integer id) {
+	public String details(Model model,
+			@RequestParam(value = "rpgID", defaultValue = "0") Integer id) {
+
+		// This will only happen if id is given the default value, which is 0. If
+		// this is the case, then it must mean that the redirect from
+		// *displayEditPage()* method has occurred. In that case, it also means that
+		// the redirect provided a flash attribute to take the place of the id
+		// value, which means that we can use that flash attribute to set the id
+		// field.
+		//
+		// But why is this happening? Because I have it such that the user can edit
+		// the RPG either from the drop down film list or from the details page. If
+		// using the latter, then the flash attribute id for the RPG on the details
+		// page is provided, otherwise, use the id of the RPG from the list (on
+		// index.jsp)
+		Map<String, Object> modelMap = model.asMap();
+		if (id == 0 && modelMap.get("detailsEditID") != null) {
+			id = (Integer) modelMap.get("detailsEditID");
+		}
 
 		if (dao.searchForRPGByID(id) != null) {
 			model.addAttribute("RPG", dao.searchForRPGByID(id));
@@ -41,15 +62,32 @@ public class RPGController {
 	}
 
 	// == Start Edit Paths ==
-	@RequestMapping("goToEditPage.do")
-	public String displayEditPage(Model model) {
-		return "edit";
+	@RequestMapping("displayEdit.do")
+	public String displayEditPage(RedirectAttributes redir,
+			@RequestParam(value = "listEditID",
+					defaultValue = "0") Integer listEditID,
+			@RequestParam(value = "detailsEditID",
+					defaultValue = "0") Integer detailsEditID) {
+
+		if (listEditID != 0) {
+			redir.addFlashAttribute("wasButtonClickedForEditRPG", true);
+			redir.addFlashAttribute("listEditID", listEditID);
+			return "redirect:displayList.do";
+		} else if (detailsEditID != 0) {
+			redir.addFlashAttribute("wasButtonClickedForEditRPG", true);
+			redir.addFlashAttribute("detailsEditID", detailsEditID);
+			return "redirect:details.do";
+		} else {
+			return "index";
+		}
+
 	}
 
 	@RequestMapping(path = "editRPG.do", method = RequestMethod.POST)
-	public String editRPG(Model model) {
-
-		return "edit";
+	public String editRPG(Model model, RPG rpgToUpdate,
+			@RequestParam("updateID") Integer id) {
+		dao.editRPG(id, rpgToUpdate);
+		return "index";
 	}
 	// == End Edit Paths ==
 
@@ -69,4 +107,10 @@ public class RPGController {
 		return "index";
 	}
 	// == End Add Paths ==
+
+	@RequestMapping(path = "deleteRPG.do", method = RequestMethod.POST)
+	public String deleteRPG(Model model, RPG rpg) {
+		dao.destroyRPG(rpg);
+		return "index";
+	}
 }
