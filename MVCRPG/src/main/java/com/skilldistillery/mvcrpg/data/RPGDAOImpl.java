@@ -49,8 +49,18 @@ public class RPGDAOImpl implements RPGDAO {
 
 	@Override
 	public RPG createRPG(RPG rpg) {
+
+		if (rpg.getUrlImage() == null || rpg.getUrlImage() == "") {
+			rpg.setUrlImage("images/default.jpeg");
+		}
+
+		if (rpg.getUrlReview() == null || rpg.getUrlReview() == "") {
+			rpg.setUrlReview("http://www.metacritic.com/");
+		}
+
 		em.persist(rpg);
 		em.flush();
+
 		return rpg;
 	}
 
@@ -63,8 +73,18 @@ public class RPGDAOImpl implements RPGDAO {
 		rpgToUpdate.setDeveloper(rpg.getDeveloper());
 		rpgToUpdate.setPublisher(rpg.getPublisher());
 		rpgToUpdate.setReleaseYear(rpg.getReleaseYear());
-		rpgToUpdate.setUrlImage(rpg.getUrlImage());
-		rpgToUpdate.setUrlReview(rpg.getUrlReview());
+
+		if (rpg.getUrlImage() != null && rpg.getUrlImage() != "") {
+			rpgToUpdate.setUrlImage(rpg.getUrlImage());
+		} else {
+			rpgToUpdate.setUrlImage("images/default.jpeg");
+		}
+
+		if (rpg.getUrlReview() != null && rpg.getUrlReview() != "") {
+			rpgToUpdate.setUrlReview(rpg.getUrlReview());
+		} else {
+			rpgToUpdate.setUrlReview("http://www.metacritic.com/");
+		}
 
 		return rpgToUpdate;
 	}

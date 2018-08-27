@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class RPG {
@@ -13,16 +16,21 @@ public class RPG {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@NotEmpty
 	private String title;
 
+	@NotEmpty
 	private String description;
 
+	@NotEmpty
 	private String developer;
 
+	@NotEmpty
 	private String publisher;
 
 	@Column(name = "release_year")
-	private int releaseYear;
+	@NotNull
+	private Integer releaseYear;
 
 	@Column(name = "url_image")
 	private String urlImage;
@@ -36,7 +44,8 @@ public class RPG {
 	}
 
 	public RPG(String title, String description, String developer,
-			String publisher, int releaseYear, String urlImage, String urlReview) {
+			String publisher, Integer releaseYear, String urlImage,
+			String urlReview) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -48,7 +57,8 @@ public class RPG {
 	}
 
 	public RPG(int id, String title, String description, String developer,
-			String publisher, int releaseYear, String urlImage, String urlReview) {
+			String publisher, Integer releaseYear, String urlImage,
+			String urlReview) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -102,11 +112,11 @@ public class RPG {
 		this.publisher = publisher;
 	}
 
-	public int getReleaseYear() {
+	public Integer getReleaseYear() {
 		return releaseYear;
 	}
 
-	public void setReleaseYear(int releaseYear) {
+	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
 	}
 

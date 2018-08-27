@@ -2,9 +2,13 @@ package com.skilldistillery.mvcrpg.controllers;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -98,12 +102,22 @@ public class RPGController {
 	@RequestMapping("displayAddRPGForm.do")
 	public String displayAddRPGForm(Model model) {
 		model.addAttribute("wasButtonClickedForAddRPG", true);
+		// So that we can get the Spring forms workings (from *index.jsp*)
+		model.addAttribute("rpg", new RPG());
 		return "index";
 	}
 
 	@RequestMapping(path = "addRPG.do", method = RequestMethod.POST)
-	public String addRPG(Model model, RPG rpg) {
+	public String addRPG(Model model, @ModelAttribute("rpg") @Valid RPG rpg,
+			BindingResult result) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("wasButtonClickedForAddRPG", true);
+			return "index";
+		}
+
 		dao.createRPG(rpg);
+
 		return "index";
 	}
 	// == End Add Paths ==

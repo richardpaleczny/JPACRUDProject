@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <!DOCTYPE html>
 <html>
@@ -33,40 +34,47 @@
 
 		<br>
 
-		<form action="addRPG.do" method="POST">
+		<form:form action="addRPG.do" method="POST" modelAttribute="rpg">
 			<table>
 				<tr>
-					<td><label for="title">Title:</label></td>
-					<td><input type="text" name="title" /></td>
+					<td><form:label path="title">Title:</form:label></td>
+					<td><form:input path="title" /></td>
+					<td><form:errors path="title" /></td>
 				</tr>
 				<tr>
-					<td><label for="description">Description:</label></td>
-					<td><input type="text" name="description" /></td>
+					<td><form:label path="description">Description:</form:label></td>
+					<td><form:input path="description" /></td>
+					<td><form:errors path="description" /></td>
 				</tr>
 				<tr>
-					<td><label for="developer">Developer:</label></td>
-					<td><input type="text" name="developer" /></td>
+					<td><form:label path="developer">Developer:</form:label></td>
+					<td><form:input path="developer" /></td>
+					<td><form:errors path="developer" /></td>
 				</tr>
 				<tr>
-					<td><label for="publisher">Publisher:</label></td>
-					<td><input type="text" name="publisher" /></td>
+					<td><form:label path="publisher">Publisher:</form:label></td>
+					<td><form:input path="publisher" /></td>
+					<td><form:errors path="publisher" /></td>
 				</tr>
 				<tr>
-					<td><label for="releaseYear">Release Year:</label></td>
-					<td><input type="text" name="releaseYear" /></td>
+					<td><form:label path="releaseYear">Release Year:</form:label></td>
+					<td><form:input path="releaseYear" /></td>
+					<td><form:errors path="releaseYear" /></td>
 				</tr>
 				<tr>
-					<td><label for="urlImage">Image URL:</label></td>
-					<td><input type="text" name="urlImage" /></td>
+					<td><form:label path="urlImage">Image URL:</form:label></td>
+					<td><form:input path="urlImage" /></td>
 				</tr>
 				<tr>
-					<td><label for="urlReview">Review URL:</label></td>
-					<td><input type="text" name="urlReview" /></td>
+					<td><form:label path="urlReview">Review URL:</form:label></td>
+					<td><form:input path="urlReview" /></td>
 				</tr>
 			</table>
-
 			<input type="submit" value="Add RPG" />
+		</form:form>
 
+		<form action="index.do">
+			<input type="submit" value="Cancel">
 		</form>
 
 	</c:if>
@@ -125,35 +133,44 @@
 									<table>
 										<tr>
 											<td><label for="title">Title:</label></td>
-											<td><input type="text" name="title" /></td>
+											<td><input type="text" name="title" value="${rpg.title}" /></td>
 										</tr>
 										<tr>
 											<td><label for="description">Description:</label></td>
-											<td><input type="text" name="description" /></td>
+											<td><input type="text" name="description"
+												value="${rpg.description}" /></td>
 										</tr>
 										<tr>
 											<td><label for="developer">Developer:</label></td>
-											<td><input type="text" name="developer" /></td>
+											<td><input type="text" name="developer"
+												value="${rpg.developer}" /></td>
 										</tr>
 										<tr>
 											<td><label for="publisher">Publisher:</label></td>
-											<td><input type="text" name="publisher" /></td>
+											<td><input type="text" name="publisher"
+												value="${rpg.publisher}" /></td>
 										</tr>
 										<tr>
 											<td><label for="releaseYear">Release Year:</label></td>
-											<td><input type="text" name="releaseYear" /></td>
+											<td><input type="text" name="releaseYear"
+												value="${rpg.releaseYear}" /></td>
 										</tr>
 										<tr>
 											<td><label for="urlImage">Image URL:</label></td>
-											<td><input type="text" name="urlImage" /></td>
+											<td><input type="text" name="urlImage"
+												value="${rpg.urlImage}" /></td>
 										</tr>
 										<tr>
 											<td><label for="urlReview">Review URL:</label></td>
-											<td><input type="text" name="urlReview" /></td>
+											<td><input type="text" name="urlReview"
+												value="${rpg.urlReview}" /></td>
 										</tr>
 									</table>
 									<input type="submit" value="Update" /> <input type="hidden"
 										name="updateID" value="${rpg.id}" />
+								</form>
+								<form action="displayList.do">
+									<input type="submit" value="Cancel">
 								</form>
 						</tr>
 					</c:if>
