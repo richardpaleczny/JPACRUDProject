@@ -30,6 +30,17 @@
 		<input type="submit" value="Add an RPG to the Database" />
 	</form>
 
+	<c:if test="${successfulAddition}">
+		<br>
+		<strong>RPG successfully added to the database</strong>
+		<br>
+	</c:if>
+	<c:if test="${!successfulAddition && wasAddRPGButtonClicked}">
+		<br>
+		<strong>Unable to add RPG to database</strong>
+		<br>
+	</c:if>
+
 	<c:if test="${wasButtonClickedForAddRPG}">
 
 		<br>
@@ -84,6 +95,21 @@
 	<form action="displayList.do">
 		<input type="submit" value="Display all RPGs" />
 	</form>
+	<c:if test="${wasButtonClickedForListRPGs}">
+		<form action="index.do">
+			<input type="submit" value="Clear Display" />
+		</form>
+	</c:if>
+	<br>
+
+	<c:if test="${successfulDeletion}">
+		<strong>${rpgTitle}</strong> was successfully deleted from the
+			database
+	</c:if>
+	<c:if test="${!successfulDeletion && wasDeleteButtonClicked}">
+		<strong>${rpgTitle} was not successfully deleted from the
+			database</strong>
+	</c:if>
 
 	<br>
 
@@ -114,8 +140,17 @@
 										</form></td>
 									<td><form action="deleteRPG.do" method="POST">
 											<input type="submit" value="Delete"> <input
-												type="hidden" value="${rpg}">
+												type="hidden" name="deleteID" value="${rpg.id}">
 										</form></td>
+								</tr>
+								<tr>
+									<td colspan="3"><c:if
+											test="${successfulEdit && rpg.id == updateID}">
+											<strong>Update successful</strong>
+										</c:if> <c:if
+											test="${!successfulEdit && wasEditRPGButtonClicked && rpg.id == updateID}">
+											<strong>Update failed</strong>
+										</c:if></td>
 								</tr>
 							</table></td>
 

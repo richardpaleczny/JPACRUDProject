@@ -48,7 +48,7 @@ public class RPGDAOImpl implements RPGDAO {
 	}
 
 	@Override
-	public RPG createRPG(RPG rpg) {
+	public boolean createRPG(RPG rpg) {
 
 		if (rpg.getUrlImage() == null || rpg.getUrlImage() == "") {
 			rpg.setUrlImage("images/default.jpeg");
@@ -61,11 +61,15 @@ public class RPGDAOImpl implements RPGDAO {
 		em.persist(rpg);
 		em.flush();
 
-		return rpg;
+		if (em.find(RPG.class, rpg.getId()) != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public RPG editRPG(Integer id, RPG rpg) {
+	public boolean editRPG(Integer id, RPG rpg) {
 
 		RPG rpgToUpdate = em.find(RPG.class, id);
 		rpgToUpdate.setTitle(rpg.getTitle());
@@ -86,13 +90,17 @@ public class RPGDAOImpl implements RPGDAO {
 			rpgToUpdate.setUrlReview("http://www.metacritic.com/");
 		}
 
-		return rpgToUpdate;
+		if (em.find(RPG.class, rpgToUpdate.getId()) != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean destroyRPG(RPG rpg) {
 
-		em.remove(rpg);
+		em.remove(em.contains(rpg) ? rpg : em.merge(rpg));
 		em.flush();
 
 		if (em.find(RPG.class, rpg.getId()) == null) {

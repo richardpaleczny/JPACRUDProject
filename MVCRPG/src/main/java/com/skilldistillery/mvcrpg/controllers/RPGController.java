@@ -89,9 +89,15 @@ public class RPGController {
 
 	@RequestMapping(path = "editRPG.do", method = RequestMethod.POST)
 	public String editRPG(Model model, RPG rpgToUpdate,
-			@RequestParam("updateID") Integer id) {
-		dao.editRPG(id, rpgToUpdate);
-		return "index";
+			@RequestParam("updateID") Integer id, RedirectAttributes redir) {
+
+		redir.addFlashAttribute("wasEditRPGButtonClicked", true);
+		redir.addFlashAttribute("updateID", id);
+
+		// boolean model value; true if edit succeeded, otherwise, false
+		redir.addFlashAttribute("successfulEdit", dao.editRPG(id, rpgToUpdate));
+
+		return "redirect:displayList.do";
 	}
 	// == End Edit Paths ==
 
@@ -111,20 +117,36 @@ public class RPGController {
 	public String addRPG(Model model, @ModelAttribute("rpg") @Valid RPG rpg,
 			BindingResult result) {
 
+		// boolean to use in conjunction with successfulAddition so that we don't
+		// display "Unable to add RPG to database" by default
+		model.addAttribute("wasAddRPGButtonClicked", true);
+
 		if (result.hasErrors()) {
 			model.addAttribute("wasButtonClickedForAddRPG", true);
 			return "index";
 		}
 
-		dao.createRPG(rpg);
+		// Add the user-input RPG to the model - add a boolean to model; if the
+		// addition was successful, return true, otherwise, return false
+		model.addAttribute("successfulAddition", dao.createRPG(rpg));
 
 		return "index";
 	}
 	// == End Add Paths ==
 
 	@RequestMapping(path = "deleteRPG.do", method = RequestMethod.POST)
-	public String deleteRPG(Model model, RPG rpg) {
-		dao.destroyRPG(rpg);
+	public String deleteRPG(Model model, @RequestParam("deleteID") Integer id) {
+
+		// For use on the index page
+		model.addAttribute("wasDeleteButtonClicked", true);
+
+		RPG rpgToDelete = dao.searchForRPGByID(id);
+		model.addAttribute("rpgTitle", rpgToDelete.getTitle());
+
+		// boolean return value; true if delete successful, otherwise false
+		model.addAttribute("successfulDeletion", dao.destroyRPG(rpgToDelete));
+
 		return "index";
 	}
+
 }

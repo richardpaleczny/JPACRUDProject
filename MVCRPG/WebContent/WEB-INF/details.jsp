@@ -87,7 +87,7 @@
 
 		<form action="deleteRPG.do" method="POST">
 			<input type="submit" value="Delete"> <input type="hidden"
-				value="${RPG}">
+				name="deleteID" value="${RPG.id}" />
 		</form>
 	</c:if>
 

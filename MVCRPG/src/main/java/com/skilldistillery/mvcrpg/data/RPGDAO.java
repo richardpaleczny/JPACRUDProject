@@ -10,9 +10,9 @@ public interface RPGDAO {
 
 	public List<RPG> returnRPGList();
 
-	public RPG createRPG(RPG rpg);
+	public boolean createRPG(RPG rpg);
 	
-	public RPG editRPG(Integer id, RPG rpg);
+	public boolean editRPG(Integer id, RPG rpg);
 	
 	public boolean destroyRPG(RPG rpg);
 
